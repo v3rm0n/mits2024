@@ -26,7 +26,7 @@ class Esimene : Advent {
     }
 
     @Test
-    fun testVastus() {
+    fun esimeneVastus() {
         val input = """
             Kelluke: 1.64
             ForMe: 1.89

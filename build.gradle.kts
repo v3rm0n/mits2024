@@ -28,8 +28,8 @@ tasks {
             from("$rootDir/src/main/resources/index.html") {
                 expand(
                     "CLASSES" to items.sorted().map { file("$rootDir/src/main/kotlin/advent/$it.kt").readText() }
-                        .map { removeImportsAndPackage(it) }
-                        .joinToString { "\n" }
+                        .joinToString("") { removeImportsAndPackage(it) }
+                        .replace("\n\n+".toRegex(), "\n\n")
                 )
             }
             into("build/docs")

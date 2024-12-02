@@ -23,7 +23,7 @@ class Teine : Advent {
 
 
     @Test
-    fun `test vastus on 22`() {
+    fun teineVastus() {
         val input = """
             __________
             __________
