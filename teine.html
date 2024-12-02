@@ -1,0 +1,67 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>MITS Advent 2024</title>
+    <meta name="description" content="MITS Advent 2024">
+    <meta name="author" content="Maido Käära">
+</head>
+<body>
+<pre>
+<code data-target-platform="junit">
+import org.junit.Test
+import kotlin.test.assertEquals
+import java.math.BigDecimal
+
+interface Advent {
+    fun task(input: List&lt;String&gt;): String
+}
+
+
+
+class Teine : Advent {
+    override fun task(input: List&lt;String&gt;): String {
+        val xMin = input.minOf {
+            it.foldIndexed(MAX_VALUE) { i, acc, char -&gt; if (char == 'X' && acc &gt; i) i else acc }
+        }
+        val xMax = input.maxOf {
+            it.foldIndexed(MIN_VALUE) { i, acc, char -&gt; if (char == 'X' && acc &lt; i) i else acc }
+        }
+        val yMax = input.foldIndexed(MAX_VALUE) { j, acc, line -&gt; if (line.contains("X")) j else acc }
+        val yMin = input.foldRightIndexed(MIN_VALUE) { j, line, acc -&gt; if (line.contains("X")) j else acc }
+        return (((xMax + 1 - xMin + 1) + (yMax + 1 - yMin + 1)) * 2).toString()
+    }
+}
+
+
+
+
+class TeineTest {
+    private val teine = Teine()
+
+    @Test
+    fun `test vastus on 22`() {
+        val input = """
+            __________
+            __________
+            _____X____
+            _____X____
+            _____X____
+            _______X__
+            ______X___
+            _____X____
+            __________
+            __________ 
+        """.trimIndent()
+        assertEquals("22", teine.task(input.split("\n")))
+    }
+}
+//
+
+</code>
+</pre>
+<script src="https://unpkg.com/kotlin-playground@1" data-selector="code"></script>
+</body>
+</html>
