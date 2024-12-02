@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>MITS Advent 2024</title>
+    <meta name="description" content="MITS Advent 2024">
+    <meta name="author" content="Maido Käära">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <div class="column" style="text-align: center; margin-top: 2em"><h1>MITS Advent 2024</h1></div>
+    </div>
+
+    <div class="row">
+        <div class="column" style="text-align: center"><p><a href="https://kood.mits.ee">MITS advendikalendri</a>
+            lahendused
+            kasutades ainult <a href="https://kotlinlang.org/api/latest/jvm/stdlib/index.html">Kotlini standardteeki</a>
+            koos brauseris jooksvate testidega</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column" style="text-align: center">
+            <ul id="menu">
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="column column-50 column-offset-25" style="text-align: end">
+                by <a href="https://github.com/v3rm0n">v3rm0n</a>
+            </div>
+        </div>
+    </footer>
+</div>
+<script>
+  const menu = document.getElementById("menu");
+  const items = ["Esimene"];
+  items.forEach(item => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `/${item}.html`.toLocaleLowerCase();
+    a.text = item;
+    li.appendChild(a);
+    menu.appendChild(li);
+  });
+</script>
+</body>
+</html>

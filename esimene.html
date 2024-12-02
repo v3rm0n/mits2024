@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>MITS Advent 2024</title>
+    <meta name="description" content="MITS Advent 2024">
+    <meta name="author" content="Maido Käära">
+</head>
+<body>
+<pre>
+<code data-target-platform="junit">
+import org.junit.Test
+import kotlin.test.assertEquals
+import java.math.BigDecimal
+
+interface Advent {
+    fun task(input: List&lt;String&gt;): String
+}
+
+
+
+class Esimene : Advent {
+
+    override fun task(input: List&lt;String&gt;): String {
+        val hinnad = input.dropLast(1)
+            .map { it.split(": ") }
+            .associate { it[0] to BigDecimal(it[1]) }
+        val tellimus = input.last()
+        return hinnad
+            .map { allMatches(tellimus, it.key).count().toBigDecimal() * it.value }.sumOf { it }.toPlainString()
+    }
+
+    private tailrec fun allMatches(
+        source: String,
+        element: String,
+        start: Int = 0,
+        matches: List&lt;Int&gt; = emptyList()
+    ): List&lt;Int&gt; {
+        val firstMatch = source.indexOf(element, start)
+        return if (firstMatch == -1) matches else allMatches(source, element, firstMatch + 1, matches + firstMatch)
+    }
+}
+
+
+
+
+
+class EsimeneTest {
+
+    private val esimene = Esimene()
+
+    @Test
+    fun `test vastus on 2,81`() {
+        val input = """
+            Kelluke: 1.64
+            ForMe: 1.89
+            Dynamit: 0.92
+            odForMedFuDrDynamiti
+        """.trimIndent()
+        assertEquals("2.81", esimene.task(input.split("\n")))
+    }
+}
+
+</code>
+</pre>
+<script src="https://unpkg.com/kotlin-playground@1" data-selector="code"></script>
+</body>
+</html>
