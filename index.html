@@ -26,22 +26,87 @@
         </div>
     </div>
 
-    <pre>
-    <code data-target-platform="junit">
-        import org.junit.Test
-        import kotlin.test.assertEquals
-        import java.math.BigDecimal
-        import kotlin.Int.Companion.MAX_VALUE
+<pre>
+<code data-target-platform="junit">
+import org.junit.Test
+import kotlin.test.assertEquals
+import java.math.BigDecimal
+import kotlin.Int.Companion.MAX_VALUE
 
-        interface Advent {
-        fun task(input: List&lt;String&gt;): String
-        }
+interface Advent {
+    fun task(input: List&lt;String&gt;): String
+}
 
-        
-, 
+class Esimene : Advent {
 
-    </code>
-    </pre>
+    override fun task(input: List&lt;String&gt;): String {
+        return input.dropLast(1)
+            .map { it.split(": ") }
+            .associate { it[0] to BigDecimal(it[1]) }
+            .map { allMatches(input.last(), it.key).count().toBigDecimal() * it.value }
+            .sumOf { it }
+            .toPlainString()
+    }
+
+    private tailrec fun allMatches(
+        source: String,
+        element: String,
+        start: Int = 0,
+        matches: List&lt;Int&gt; = emptyList()
+    ): List&lt;Int&gt; {
+        val firstMatch = source.indexOf(element, start)
+        return if (firstMatch == -1) matches else allMatches(source, element, firstMatch + 1, matches + firstMatch)
+    }
+
+    @Test
+    fun esimeneVastus() {
+        val input = """
+            Kelluke: 1.64
+            ForMe: 1.89
+            Dynamit: 0.92
+            odForMedFuDrDynamiti
+        """.trimIndent()
+        assertEquals("2.81", task(input.split("\n")))
+    }
+}
+
+class Teine : Advent {
+
+    data class Coordinates(val xMin: Int = MAX_VALUE, val xMax: Int = 0, val yMin: Int = MAX_VALUE, val yMax: Int = 0)
+
+    override fun task(input: List&lt;String&gt;): String {
+        return input.foldIndexed(Coordinates()) { rowNr, result, line -&gt;
+            (line.indexOf('X') to line.lastIndexOf('X')).let { (first, last) -&gt;
+                result.copy(
+                    yMin = if (first &gt;= 0) minOf(rowNr, result.yMin) else result.yMin,
+                    yMax = if (first &gt;= 0) maxOf(rowNr, result.yMax) else result.yMax,
+                    xMin = if (first &gt;= 0) minOf(result.xMin, first) else result.xMin,
+                    xMax = if (last &gt;= 0) maxOf(result.xMax, last) else result.xMax
+                )
+            }
+        }.let { (it.xMax - it.xMin + it.yMax - it.yMin + 4) * 2 }.toString()
+    }
+
+    @Test
+    fun teineVastus() {
+        val input = """
+            __________
+            __________
+            _____X____
+            _____X____
+            _____X____
+            _______X__
+            ______X___
+            _____X____
+            __________
+            __________ 
+        """.trimIndent()
+        assertEquals("22", task(input.split("\n")))
+    }
+}
+
+</code>
+</pre>
 
     <footer>
         <div class="row">
