@@ -11,12 +11,13 @@ class Teine : Advent {
     override fun task(input: List<String>): String {
         return input.foldIndexed(Coordinates()) { rowNr, result, line ->
             (line.indexOf('X') to line.lastIndexOf('X')).let { (first, last) ->
-                result.copy(
-                    yMin = if (first >= 0) minOf(rowNr, result.yMin) else result.yMin,
-                    yMax = if (first >= 0) maxOf(rowNr, result.yMax) else result.yMax,
-                    xMin = if (first >= 0) minOf(result.xMin, first) else result.xMin,
-                    xMax = if (last >= 0) maxOf(result.xMax, last) else result.xMax
-                )
+                if (first < 0) result else
+                    result.copy(
+                        yMin = minOf(rowNr, result.yMin),
+                        yMax = maxOf(rowNr, result.yMax),
+                        xMin = minOf(result.xMin, first),
+                        xMax = maxOf(result.xMax, last)
+                    )
             }
         }.let { (it.xMax - it.xMin + it.yMax - it.yMin + 4) * 2 }.toString()
     }
