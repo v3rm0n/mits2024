@@ -36,7 +36,6 @@ tasks {
         }
     }
 
-
     processResources {
         dependsOn(generateHTML)
     }
