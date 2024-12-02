@@ -17,9 +17,4 @@ class EsimeneTest {
         """.trimIndent()
         assertEquals("2.81", esimene.task(input.split("\n")))
     }
-
-    @Test
-    fun `vastus on `() {
-        assertEquals("2.81", esimene.task(input.split("\n")))
-    }
 }
