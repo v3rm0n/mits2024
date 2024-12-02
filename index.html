@@ -26,12 +26,22 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="column" style="text-align: center">
-            <ul id="menu">
-            </ul>
-        </div>
-    </div>
+    <pre>
+    <code data-target-platform="junit">
+        import org.junit.Test
+        import kotlin.test.assertEquals
+        import java.math.BigDecimal
+        import kotlin.Int.Companion.MAX_VALUE
+
+        interface Advent {
+        fun task(input: List&lt;String&gt;): String
+        }
+
+        
+, 
+
+    </code>
+    </pre>
 
     <footer>
         <div class="row">
@@ -41,17 +51,6 @@
         </div>
     </footer>
 </div>
-<script>
-  const menu = document.getElementById("menu");
-  const items = ["Esimene", "Teine"];
-  items.forEach(item => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = `/${item}.html`.toLocaleLowerCase();
-    a.text = item;
-    li.appendChild(a);
-    menu.appendChild(li);
-  });
-</script>
+<script src="https://unpkg.com/kotlin-playground@1" data-selector="code"></script>
 </body>
 </html>
