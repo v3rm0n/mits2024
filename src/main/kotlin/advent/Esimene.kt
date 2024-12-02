@@ -1,6 +1,8 @@
 package advent
 
 import java.math.BigDecimal
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class Esimene : Advent {
 
@@ -22,5 +24,18 @@ class Esimene : Advent {
         val firstMatch = source.indexOf(element, start)
         return if (firstMatch == -1) matches else allMatches(source, element, firstMatch + 1, matches + firstMatch)
     }
+
+    @Test
+    fun testVastus() {
+        val input = """
+            Kelluke: 1.64
+            ForMe: 1.89
+            Dynamit: 0.92
+            odForMedFuDrDynamiti
+        """.trimIndent()
+        assertEquals("2.81", task(input.split("\n")))
+    }
 }
+
+
 

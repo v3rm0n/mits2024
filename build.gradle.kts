@@ -1,8 +1,6 @@
-import java.util.*
-
 plugins {
-    kotlin("jvm") version "2.1.0"
     application
+    kotlin("jvm") version "2.1.0"
 }
 
 repositories {
@@ -12,8 +10,8 @@ repositories {
 dependencies {
     implementation(platform(kotlin("bom")))
     implementation(kotlin("stdlib"))
-    testImplementation(kotlin("test"))
-    testImplementation(kotlin("test-junit"))
+    implementation(kotlin("test"))
+    implementation(kotlin("test-junit"))
 }
 
 fun removeImportsAndPackage(content: String): String =
@@ -24,27 +22,14 @@ fun removeImportsAndPackage(content: String): String =
 
 tasks {
     val generateHTML by creating {
-        val items = mutableListOf<String>()
-        file("$rootDir/src/main/kotlin/advent").list()!!.filter { it != "Advent.kt" }.map {
-            copy {
-                val name = it.removeSuffix(".kt")
-                items.add(name)
-                val content = file("$rootDir/src/main/kotlin/advent/$name.kt").readText()
-                val testContent = file("$rootDir/src/test/kotlin/advent/${name}Test.kt").readText()
-                from("$rootDir/src/main/resources/template.html") {
-                    expand(
-                        "CLASS" to removeImportsAndPackage(content),
-                        "TESTCLASS" to removeImportsAndPackage(testContent)
-                    )
-                }
-                into("build/docs")
-                rename { "${name.lowercase(Locale.getDefault())}.html" }
-            }
-        }
+        val items =
+            file("$rootDir/src/main/kotlin/advent").list()!!.filter { it != "Advent.kt" }.map { it.removeSuffix(".kt") }
         copy {
             from("$rootDir/src/main/resources/index.html") {
                 expand(
-                    "MENU" to items.sorted().joinToString { "\"${it}\"" }
+                    "CLASSES" to items.sorted().map { file("$rootDir/src/main/kotlin/advent/$it.kt").readText() }
+                        .map { removeImportsAndPackage(it) }
+                        .joinToString { "\n" }
                 )
             }
             into("build/docs")

@@ -9,6 +9,7 @@ class EsimeneTest {
 
     @Test
     fun `test vastus on 2,81`() {
+        val esimene = Esimene()
         val input = """
             Kelluke: 1.64
             ForMe: 1.89

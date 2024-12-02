@@ -1,6 +1,8 @@
 package advent
 
+import org.junit.Test
 import kotlin.Int.Companion.MAX_VALUE
+import kotlin.test.assertEquals
 
 class Teine : Advent {
 
@@ -17,5 +19,23 @@ class Teine : Advent {
                 )
             }
         }.let { (it.xMax - it.xMin + it.yMax - it.yMin + 4) * 2 }.toString()
+    }
+
+
+    @Test
+    fun `test vastus on 22`() {
+        val input = """
+            __________
+            __________
+            _____X____
+            _____X____
+            _____X____
+            _______X__
+            ______X___
+            _____X____
+            __________
+            __________ 
+        """.trimIndent()
+        assertEquals("22", task(input.split("\n")))
     }
 }
