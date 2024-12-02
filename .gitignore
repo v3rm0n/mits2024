@@ -7,3 +7,5 @@ out
 .idea
 *.iml
 docs
+
+**/.DS_Store
