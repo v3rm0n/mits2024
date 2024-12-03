@@ -28,13 +28,12 @@
 
     <pre>
 <code data-target-platform="junit">
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.Int.Companion.MAX_VALUE
-
-interface Advent {
-    fun task(input: List&lt;String&gt;): String
-}${CLASSES}
+${CLASSES}
+<textarea class="hidden-dependency">
+    object Inputs {
+        ${DATA}
+    }
+</textarea>
 </code>
 </pre>
 

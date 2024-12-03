@@ -14,22 +14,19 @@ dependencies {
     implementation(kotlin("test-junit"))
 }
 
-fun removeImportsAndPackage(content: String): String =
-    content.lines().filter { !it.contains("import") && !it.contains("package") }
-        .joinToString("\n") {
-            it.replace("<", "&lt;").replace(">", "&gt;")
-        }
-
 tasks {
     val generateHTML by creating {
-        val items =
-            file("$rootDir/src/main/kotlin/advent").list()!!.filter { it != "Advent.kt" }.map { it.removeSuffix(".kt") }
         copy {
             from("$rootDir/src/main/resources/index.html") {
                 expand(
-                    "CLASSES" to items.sorted().map { file("$rootDir/src/main/kotlin/advent/$it.kt").readText() }
-                        .joinToString("") { removeImportsAndPackage(it) }
-                        .replace("\n\n+".toRegex(), "\n\n")
+                    "CLASSES" to file("$rootDir/src/main/kotlin/Advent.kt").readText()
+                        .replace("<", "&lt;").replace(">", "&gt;"),
+                    "DATA" to file("$rootDir/src/main/resources").list()!!.filter { it.endsWith(".txt") }
+                        .map { it to file("$rootDir/src/main/resources/$it").readText() }
+                        .joinToString("\n") { (name, content) ->
+                            """val ${name.removeSuffix(".txt")} = ${"\"\"\""}$content${"\"\"\""}
+""".trimIndent()
+                        }
                 )
             }
             into("build/docs")
