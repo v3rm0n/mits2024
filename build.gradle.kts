@@ -23,10 +23,7 @@ tasks {
                         .replace("<", "&lt;").replace(">", "&gt;"),
                     "DATA" to file("$rootDir/src/main/resources").list()!!.filter { it.endsWith(".txt") }
                         .map { it to file("$rootDir/src/main/resources/$it").readText() }
-                        .joinToString("\n") { (name, content) ->
-                            """val ${name.removeSuffix(".txt")} = ${"\"\"\""}$content${"\"\"\""}
-""".trimIndent()
-                        }
+                        .joinToString("\n") { (name, content) -> "val ${name.removeSuffix(".txt")} = ${"\"\"\""}$content${"\"\"\""}" }
                 )
             }
             into("build/docs")
