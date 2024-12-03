@@ -1,5 +1,6 @@
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.math.BigDecimal
 import kotlin.math.pow
 
 class Advent {
@@ -73,9 +74,11 @@ class Advent {
     fun kolmas(input: List<String>): String {
         return input.first().split(" ")
             .let { letters ->
-                (2.0.pow(letters.count()) - letters.zip(letters.count() - 1 downTo 0)
-                    .sumOf { (letter, depth) -> if (letter == "v") 2.0.pow(depth) else 0.0 })
-                    .toInt()
+                (BigDecimal(2.0).pow(letters.count()) - letters.zip(letters.count() - 1 downTo 0)
+                    .sumOf { (letter, depth) ->
+                        if (letter == "v") BigDecimal(2.0).pow(depth) else BigDecimal.ZERO
+                    })
+                    .toBigInteger()
                     .toString()
             }
     }
@@ -101,6 +104,6 @@ class Advent {
 
     @Test
     fun kolmasVastus() {
-        assertEquals("2147483647", kolmas(Inputs.kolmas.lines()))
+        assertEquals("2710512493338385384", kolmas(Inputs.kolmas.lines()))
     }
 }
